@@ -1,4 +1,4 @@
-from .skeleton import plot_all
+from .skeleton import EpiSpread
 
 if __name__ == "__main__":
-    plot_all()
+    EpiSpread.plot_all()

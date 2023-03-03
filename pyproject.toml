@@ -7,9 +7,9 @@ requires = [
 build-backend="setuptools.build_meta"
 
 [project]
-name = "example-project-python"
-authors = [{name = "Your Name", email = "Your_Email@gmail.com"}]
-description="An example python project"
+name = "epispread"
+authors = [{name = "Sienna", email = "scb2197@columbia.edu"}]
+description="Tool for visualizing disease spread"
 readme = "README.md"
 version = "0.0.1"
 requires-python = ">=3.7"
@@ -33,7 +33,7 @@ classifiers = [
 file = "LICENSE"
 
 [project.urls]
-repository = "https://github.com/columbiaoss/example-project-python"
+repository = "https://github.com/scb-school/epi-spread-visualizer"
 
 [project.optional-dependencies]
 develop = [
@@ -64,10 +64,10 @@ ignore = [
 ignore = ['E203', 'W503']
 max-line-length=120
 exclude=[
-    'example_project_python/tests/*'
+    'epispread/tests/*'
 ]
 per-file-ignores= [
-    'example_project_python/__init__.py:F401, F403'
+    'epispread/__init__.py:F401, F403'
 ]
 
 
@@ -97,4 +97,4 @@ python_version = '3.10'
 
 [tool.pytest.ini_options]
 asyncio_mode = 'strict'
-testpaths = 'example_project_python/tests'
+testpaths = 'epispread/tests'
