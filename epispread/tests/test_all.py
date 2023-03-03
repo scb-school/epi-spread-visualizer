@@ -1,19 +1,21 @@
+import unittest
 from unittest.mock import MagicMock, Mock, patch
 from epispread import EpiSpread
 from matplotlib.widgets import Slider
 import pandas as pd
 import geopandas as gpd
+from abc import ABC
 
 mock_df = MagicMock(spec=pd.DataFrame)
 mock_df_index = MagicMock(spec=list)
 
-thing = EpiSpread()
+thing = EpiSpread(EpiSpread.FILE)
 
 
-def test_read_data():
+def test_read_data(file=thing.FILE, world=""):
     mock_world = Mock(spec=gpd.GeoDataFrame)
-    assert type(thing.read_data()[0]) is mock_df.__class__
-    assert type(thing.read_data()[1]) is mock_world.__class__
+    assert type(thing.read_data(thing.FILE)[0]) is mock_df.__class__
+    assert type(thing.read_data(thing.FILE)[1]) is mock_world.__class__
 
 
 def test_slider_setup():
@@ -51,3 +53,17 @@ def test_merge_manager(mock_merge):
     thing.add_iso3.assert_called_once()
     thing.filter_single_date.assert_called_once()
     mock_merge.assert_called_once()
+
+class IntegrationTests(unittest.TestCase):
+    integrate = ''
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        return super().setUpClass()
+
+    def test_should_retrieve_dbs(self):
+        self.integrate = EpiSpread('/Users/siennabrent/open_source_23/epi-spread-visualizer/epispread/tests/test-db.csv', '/Users/siennabrent/open_source_23/epi-spread-visualizer/epispread/tests/test-world.csv')
+        self.assertIsNotNone(self.integrate.world)
+        self.assertIsNotNone(self.integrate.df)
+        
+    

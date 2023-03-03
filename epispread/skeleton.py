@@ -12,19 +12,25 @@ class EpiSpread:
     START_DATE = '2020-01-21'
     START_DATETIME = datetime.datetime.strptime(START_DATE, '%Y-%m-%d')
 
-    def read_data(self):
-        df = pd.read_csv(self.FILE, delimiter=",")
-        world = gpd.read_file(gpd.datasets.get_path('naturalearth_lowres'))
+    def read_data(self, file, world_url=''):
+        if not file:
+            df = pd.read_csv(self.FILE, delimiter=",")
+        else:
+            df = pd.read_csv(file, delimiter=",")
+        if not world_url:
+            world = gpd.read_file(gpd.datasets.get_path('naturalearth_lowres'))
+        else:
+            world = pd.read_csv(world_url, delimiter=",")
         world = world[world.name != "Antarctica"]
         return df, world
 
-    def __init__(self):
+    def __init__(self, file, world_url=''):
         # matplotlib global vars
         self.fig, self.ax = plt.subplots()
         self.ax.set_aspect('equal')
         self.divider = make_axes_locatable(self.ax)
         self.cax = self.divider.append_axes("right", size="5%", pad=0.1)
-        self.df, self.world = self.read_data()
+        self.df, self.world = self.read_data(file, world_url)
 
     def slider_setup(self):
         axcolor = 'lightgoldenrodyellow'
@@ -75,5 +81,6 @@ class EpiSpread:
         plt.show()
 
 
-epi_instance = EpiSpread()
+epi_instance = EpiSpread(EpiSpread.FILE)
+epi_instance.world.to_csv('world.csv', index=False)
 epi_instance.plot_all()
