@@ -8,7 +8,7 @@ from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 
 class EpiSpread:
-    FILE = "~/open_source_23/epi-spread-visualizer/epispread/WHO-COVID-19-global-data.csv"
+    FILE = "./WHO-COVID-19-global-data.csv"
     START_DATE = '2020-01-21'
     START_DATETIME = datetime.datetime.strptime(START_DATE, '%Y-%m-%d')
 
@@ -16,6 +16,7 @@ class EpiSpread:
         if not file:
             df = pd.read_csv(self.FILE, delimiter=",")
         else:
+            self.FILE = file
             df = pd.read_csv(file, delimiter=",")
         if not world_url:
             world = gpd.read_file(gpd.datasets.get_path('naturalearth_lowres'))
@@ -80,7 +81,10 @@ class EpiSpread:
         self.merge_manager(self.START_DATE)
         plt.show()
 
+def main():
+    epi_instance = EpiSpread(EpiSpread.FILE)
+    epi_instance.world.to_csv('world.csv', index=False)
+    epi_instance.plot_all()
 
-epi_instance = EpiSpread(EpiSpread.FILE)
-epi_instance.world.to_csv('world.csv', index=False)
-epi_instance.plot_all()
+if __name__ == "__main__":
+    main()
