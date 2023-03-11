@@ -4,12 +4,13 @@ from epispread import EpiSpread
 from matplotlib.widgets import Slider
 from pandas import DataFrame
 from geopandas import GeoDataFrame
+import os
 
 mock_df = MagicMock(spec=DataFrame)
 mock_df_index = MagicMock(spec=list)
 
-thing = EpiSpread(EpiSpread.FILE)
-
+print(os.getcwd())
+thing = EpiSpread('epispread/WHO-COVID-19-global-data.csv')
 
 def test_read_data(file=thing.FILE, world=""):
     mock_world = Mock(spec=GeoDataFrame)
