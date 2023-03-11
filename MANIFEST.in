@@ -1,4 +1,5 @@
 graft epispread
+recursive-include epispread *.csv
 
 include LICENSE
 include README.md
