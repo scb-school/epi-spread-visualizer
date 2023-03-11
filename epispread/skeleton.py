@@ -81,10 +81,12 @@ class EpiSpread:
         self.merge_manager(self.START_DATE)
         plt.show()
 
+
 def main():
     epi_instance = EpiSpread(EpiSpread.FILE)
     epi_instance.world.to_csv('world.csv', index=False)
     epi_instance.plot_all()
+
 
 if __name__ == "__main__":
     main()
