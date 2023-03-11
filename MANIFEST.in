@@ -1,4 +1,4 @@
-graft example_project_python
+graft epispread
 
 include LICENSE
 include README.md
@@ -7,8 +7,6 @@ include .bumpversion.cfg
 include pyproject.toml
 include Makefile
 include CONTRIBUTING.md
-include epispread
-include world.csv
 
 prune .github
 exclude .gitignore
