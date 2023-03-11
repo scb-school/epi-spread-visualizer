@@ -3,6 +3,8 @@
 #########
 develop:  ## install dependencies and build library
 	python3 -m pip install -e .[develop]
+	python3 -m pip install pandas
+	python3 -m pip install geopandas
 
 build:  ## build the python3 library
 	python3 setup.py build build_ext --inplace
