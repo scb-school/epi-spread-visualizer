@@ -12,6 +12,7 @@ mock_df_index = MagicMock(spec=list)
 print(os.getcwd())
 thing = EpiSpread('epispread/WHO-COVID-19-global-data.csv')
 
+
 def test_read_data(file=thing.FILE, world=""):
     mock_world = Mock(spec=GeoDataFrame)
     assert type(thing.read_data(thing.FILE)[0]) is mock_df.__class__
