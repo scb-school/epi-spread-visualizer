@@ -65,8 +65,8 @@ class IntegrationTests(unittest.TestCase):
 
     def test_should_retrieve_dbs(self):
         self.integrate = EpiSpread(
-            '/Users/siennabrent/open_source_23/epi-spread-visualizer/epispread/tests/test-db.csv',
-            '/Users/siennabrent/open_source_23/epi-spread-visualizer/epispread/tests/test-world.csv',
+            'epispread/tests/test-db.csv',
+            'epispread/tests/test-world.csv',
         )
         self.assertIsNotNone(self.integrate.world)
         self.assertIsNotNone(self.integrate.df)
