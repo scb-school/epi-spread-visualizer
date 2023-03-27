@@ -20,3 +20,17 @@ This project is a pure python project using modern tooling. It uses a `Makefile`
 - `make test`: run automated tests with `pytest`
 - `make coverage`: run automated tests with `pytest` and collect coverage information
 - `make dist`: package library for distribution
+
+## Installation
+```bash
+$ pip3 install epispread
+```
+
+## Quick Start
+```python
+from epispread import EpiSpread
+
+my_epispread_object = EpiSpread(EpiSpread.FILE)
+epi_instance.world.to_csv('world.csv', index=False)
+epi_instance.plot_all()
+
