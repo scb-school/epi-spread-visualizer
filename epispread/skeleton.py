@@ -13,11 +13,14 @@ class EpiSpread:
     START_DATETIME = datetime.datetime.strptime(START_DATE, '%Y-%m-%d')
 
     def read_data(self, file, world_url=''):
-        """This function will take in two distinct files in csv format and return both into pandas DataFrames using the pd.read_csv function.
+        """This function will take in two distinct files in csv format and return both into
+        pandas DataFrames using the pd.read_csv function.
 
         Args:
-            file (str): Relative path to a csv with disease spread statistics across countries, delimited by either ISO2 or ISO3.
-            world_url (str, optional): Relative path to a csv of world geography. Defaults to using the inbuilt geopandas version (this way is ideal).
+            file (str): Relative path to a csv with disease spread
+            statistics across countries, delimited by either ISO2 or ISO3.
+            world_url (str, optional): Relative path to a csv of world geography.
+            Defaults to using the inbuilt geopandas version (this way is ideal).
 
         Returns:
             (DataFrame, DataFrame): Tuple of pandas DataFrames containing appropriate data.
@@ -88,7 +91,8 @@ class EpiSpread:
         return self.df.loc[self.df['Date_reported'] == date].copy()
 
     def merge_manager(self, date):
-        """If necessary, converts the iso2 to iso3 in either DataFrame so they match. On the basis of the matching iso3 column, merges the two DataFrames and plots the resulting combination.
+        """If necessary, converts the iso2 to iso3 in either DataFrame so they match.
+        On the basis of the matching iso3 column, merges the two DataFrames and plots the resulting combination.
 
         Args:
             date (str): The required date, in format 'yy-mm-dd'
@@ -112,7 +116,9 @@ class EpiSpread:
         )
 
     def update(self, time_offset):
-        """"This is a callback function that replots the graph whenever time_offset is updated, a.k.a. whenever the slider on the map is moved. Takes in the time offset integer, converts to a real datetime, adds to the starting date and converts back to string to push to other methods.
+        """ "This is a callback function that replots the graph whenever time_offset is updated,
+        a.k.a. whenever the slider on the map is moved. Takes in the time offset integer, converts
+        to a real datetime, adds to the starting date and converts back to string to push to other methods.
 
         Args:
             time_offset (int): The associated number value of the slider, created in slider_setup.
@@ -123,8 +129,9 @@ class EpiSpread:
         self.fig.canvas.flush_events()
 
     def plot_all(self):
-        """This function should be the only one getting called by the user. Will plot the merged DataFrame that results from the init method, along with a slider to show the progression of time.
-        """
+        """This function should be the only one getting called by the user.
+        Will plot the merged DataFrame that results from the init method, along with a slider to
+        show the progression of time."""
         time_slider = self.slider_setup()
 
         # callback
