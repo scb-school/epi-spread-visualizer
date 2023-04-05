@@ -1,18 +1,16 @@
 .. EpiSpread documentation master file, created by
-   sphinx-quickstart on Tue Apr  4 23:33:15 2023.
+   sphinx-quickstart on Wed Apr  5 10:12:28 2023.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to EpiSpread's documentation!
+Welcome to EpiSpread's documentation
 =====================================
 
-- hello
-- dash
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
 
-```eval_rst
-note: 
-   we can still do whatever
-```
+   api
 
 Indices and tables
 ==================
