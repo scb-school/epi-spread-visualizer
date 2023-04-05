@@ -105,12 +105,13 @@ print-%:
 #########
 # PAGES #
 #########
+
 TMPREPO=/tmp/docs/epispread
 pages: 
 	rm -rf $(TMPREPO)
 	git clone -b gh-pages https://github.com/scb-school/epi-spread-visualizer.git $(TMPREPO)
 	rm -rf $(TMPREPO)/*
-	cp -r doc/_build/html/* $(TMPREPO)
+	cp -r docs/_build/html/* $(TMPREPO)
 	cd $(TMPREPO);\
 	git add -A ;\
 	git commit -a -m 'auto-updating docs' ;\
