@@ -19,11 +19,32 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
-.. code-block::
-   :caption: A cool example
-
-       The output of this line starts with four spaces. .
-
+Installation
+==================
 .. code-block::
 
-       The output of this line has no spaces at the beginning.
+       $ pip3 install epispread
+
+Usage
+==================
+.. code-block::
+
+       from epispread import EpiSpread
+
+      my_epispread_object = EpiSpread(EpiSpread.FILE)
+      epi_instance.world.to_csv('world.csv', index=False)
+      epi_instance.plot_all()
+
+.. image:: ../docs/images/mappic+80.jpg
+  :width: 400
+  :alt: Alternative text
+
+
+.. image:: ../docs/images/mappic+180.jpg
+  :width: 400
+  :alt: Alternative text
+
+
+.. image:: ../docs/images/mappic+280.jpg
+  :width: 400
+  :alt: Alternative text
