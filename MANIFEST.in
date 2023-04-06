@@ -17,6 +17,7 @@ recursive-include docs *.py
 recursive-include docs Makefile
 recursive-include docs *.txt
 recursive-include docs *.rst
+recursive-include docs *.jpg
 
 prune .github
 exclude .gitignore
