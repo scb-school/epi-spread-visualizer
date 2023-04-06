@@ -1,0 +1,10 @@
+API Reference
+===================
+
+Skeleton
+------------------------------
+
+.. automodule:: epispread.skeleton
+   :members:
+   :undoc-members:
+   :show-inheritance:
