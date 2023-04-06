@@ -22,7 +22,7 @@ Indices and tables
 .. code-block::
    :caption: A cool example
 
-       The output of this line starts with four spaces.
+       The output of this line starts with four spaces. .
 
 .. code-block::
 
