@@ -35,6 +35,7 @@ Usage
       epi_instance.world.to_csv('world.csv', index=False)
       epi_instance.plot_all()
 
+
 .. image:: ../epispread/images/mappic+80.jpg
   :width: 400
   :alt: Alternative text
@@ -45,6 +46,6 @@ Usage
   :alt: Alternative text
 
 
-.. image:: ../docs/images/mappic+280.jpg
+.. image:: ../epispread/images/mappic+280.jpg
   :width: 400
   :alt: Alternative text
