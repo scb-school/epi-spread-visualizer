@@ -1,4 +1,7 @@
 from setuptools import setup
 
 
-setup()
+setup(
+    # ...
+    packages=['epispread', 'epispread.graph_classes']
+)

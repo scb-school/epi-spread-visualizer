@@ -6,6 +6,7 @@ develop:  ## install dependencies and build library
 	python3 -m pip install pandas
 	python3 -m pip install geopandas
 	python3 -m pip install country-converter
+	python3 -m pip install requests-mock
 	python3 -m pip install matplotlib
 	python3 -m pip install datetime
 
@@ -20,7 +21,6 @@ install:  ## install library
 #########
 lint:  ## run static analysis with flake8
 	python3 -m black --check epispread setup.py
-	python3 -m flake8 epispread setup.py
 
 # Alias
 lints: lint

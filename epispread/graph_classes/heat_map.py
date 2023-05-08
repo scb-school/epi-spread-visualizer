@@ -5,7 +5,8 @@ import datetime
 from matplotlib.widgets import Slider
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
-class HeatMap:   
+
+class HeatMap:
     def __init__(self, df, world, plot_column, start_date, iso_column, date_column, ts_flag=0):
         self.df = df
         self.world = world
@@ -13,15 +14,15 @@ class HeatMap:
         self.iso_column = iso_column
         self.date_column = date_column
         self.ts_flag = ts_flag
-        
+
         self.start_date = start_date
         self.start_datetime = datetime.datetime.strptime(self.start_date, '%Y-%m-%d')
-        
+
         self.fig, self.ax = plt.subplots()
         self.ax.set_aspect('equal')
         self.divider = make_axes_locatable(self.ax)
         self.cax = self.divider.append_axes("right", size="5%", pad=0.1)
-        
+
     def _slider_setup(self):
         """Sets up the slider on the graph.
 
@@ -84,8 +85,8 @@ class HeatMap:
         merge_iso_column = self.iso_column
         if len(self.df[self.iso_column].iloc[0]) == 2:
             mod_df = self._add_iso3(self._filter_single_date(date))
-            merge_iso_column='Country_code_iso3'
-            
+            merge_iso_column = 'Country_code_iso3'
+
         open('test.txt', 'w').write(str(mod_df))
         merge = pd.merge(left=self.world, right=mod_df, left_on='iso_a3', right_on=merge_iso_column, how='left')
         return merge.plot(
@@ -118,7 +119,7 @@ class HeatMap:
         """This function should be the only one getting called by the user.
         Will plot the merged DataFrame that results from the init method, along with a slider to
         show the progression of time."""
-        if(self.ts_flag):
+        if self.ts_flag:
             time_slider = self._slider_setup()
 
             # callback

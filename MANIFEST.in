@@ -1,5 +1,11 @@
 graft epispread
-recursive-include epispread *.csv
+recursive-exclude epispread/data_files *.csv
+include requirements.txt
+exclude epispread/test.txt
+exclude test.txt
+include tests/data_files *
+
+exclude .coverage
 
 include LICENSE
 include README.md
@@ -18,6 +24,8 @@ recursive-include docs Makefile
 recursive-include docs *.txt
 recursive-include docs *.rst
 recursive-include docs *.jpg
+
+recursive-exclude docs/_build *
 
 prune .github
 exclude .gitignore
