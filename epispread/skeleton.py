@@ -54,6 +54,15 @@ class EpiSpread:
 
     @classmethod
     def _read_data(cls, file_name):
+        """read_data takes in a csv file name containing a dataset and reads it into a pandas DataFrame.
+        Also reads the inbuilt "world" file in the gpd library into a GeoDataFrame.
+
+        Args:
+            file_name (str): name of file containing dataset
+
+        Returns:
+            (DataFrame, GeoDataFrame): Tuple of the pandas DataFrame of the data you entered, and the world GeoDataFrame
+        """
         df = pd.read_csv(file_name, delimiter=",")
         world = gpd.read_file(gpd.datasets.get_path('naturalearth_lowres'))
         world = world[world.name != "Antarctica"]
@@ -110,6 +119,18 @@ class EpiSpread:
 
     @classmethod
     def _find_available_graphs(cls, number_columns, iso_columns, time_series_columns):
+        """find_available_graphs takes in the types of columns a dataset has and based on those,
+        outputs a list of possible visualizations that can be graphed using the dataset's data.
+
+        Args:
+            number_columns (list[str]): list of column names within dataset that contain number values
+            iso_columns (list[str]): list of column names within dataset that contain ISO values
+            time_series_columns (list[str]): list of column names within dataset that contain date values
+
+        Returns:
+            list[str]: list of names of types of graphs that can be plotted with the
+            available data types.
+        """
         available_graphs = []
         if number_columns and iso_columns:
             available_graphs.append("heat map")
@@ -121,6 +142,13 @@ class EpiSpread:
 
     @classmethod
     def run_query(cls):
+        """This function is the only function that should be called by a user.
+        run_query runs a user prompt in order to automate graph setup and creation.
+
+        Returns:
+            HeatMap: returns instance of HeatMap class if a HeatMap was plotted
+            TimeSeries: returns instance of TimeSeries class if a TimeSeries was plotted.
+        """
         file_names = cls._get_files(cls.urls)
         if not file_names:
             print("File retrieval failed.")
