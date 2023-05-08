@@ -1,151 +1,168 @@
 import pandas as pd
+import numpy
 import geopandas as gpd
-import country_converter as coco
-import matplotlib.pyplot as plt
-import datetime
-from matplotlib.widgets import Slider
-from mpl_toolkits.axes_grid1 import make_axes_locatable
+import requests
+import os
+
+try:
+    from graph_classes.heat_map import HeatMap
+    from graph_classes.time_series import TimeSeries  # this should work when running table.py directly
+except:
+    # this should work when running main.py (it's a relative import)
+    from .graph_classes.heat_map import HeatMap
+    from .graph_classes.time_series import TimeSeries
+
+# compatible with all data at https://covid19.who.int/data
 
 
 class EpiSpread:
-    FILE = "./WHO-COVID-19-global-data.csv"
-    START_DATE = '2020-01-21'
-    START_DATETIME = datetime.datetime.strptime(START_DATE, '%Y-%m-%d')
+    urls = [
+        'https://covid19.who.int/WHO-COVID-19-global-data.csv',
+        'https://covid19.who.int/WHO-COVID-19-global-table-data.csv',
+        'https://covid19.who.int/who-data/vaccination-data.csv',
+        'https://covid19.who.int/who-data/vaccination-metadata.csv',
+    ]
 
-    def read_data(self, file, world_url=''):
-        """This function will take in two distinct files in csv format and return both into
-        pandas DataFrames using the pd.read_csv function.
+    @classmethod
+    def _get_files(cls, urls, file_path=""):
+        """This function grabs 4 specified URLs from https://covid19.who.int/data \
+            and stores them as CSV files in data_files/[file_name]
+        Returns 1 if failure, 0 if success
 
         Args:
-            file (str): Relative path to a csv with disease spread
-            statistics across countries, delimited by either ISO2 or ISO3.
-            world_url (str, optional): Relative path to a csv of world geography.
-            Defaults to using the inbuilt geopandas version (this way is ideal).
+            urls (list[str]): list of all website links to the files we want to download.
 
         Returns:
-            (DataFrame, DataFrame): Tuple of pandas DataFrames containing appropriate data.
+            list[str]: list of file names that get handed to the query. 
         """
-        if not file:
-            df = pd.read_csv(self.FILE, delimiter=",")
-        else:
-            self.FILE = file
-            df = pd.read_csv(file, delimiter=",")
-        if not world_url:
-            world = gpd.read_file(gpd.datasets.get_path('naturalearth_lowres'))
-        else:
-            world = pd.read_csv(world_url, delimiter=",")
+
+        file_names = []
+
+        for url in urls:
+            r = requests.get(url, allow_redirects=True)
+            if r.status_code == 200:
+                if not file_path:
+                    file_name = url.split('/')[-1].replace(".csv", "")
+                    file_names.append(file_name)
+                    if not os.path.exists("data_files"):
+                        os.makedirs("data_files")
+                    open('data_files/' + file_name + '.csv', 'wb').write(r.content)
+                else:
+                    open(file_path, 'wb').write(r.content)
+
+        return file_names
+
+    @classmethod
+    def _read_data(cls, file_name):
+        df = pd.read_csv(file_name, delimiter=",")
+        world = gpd.read_file(gpd.datasets.get_path('naturalearth_lowres'))
         world = world[world.name != "Antarctica"]
         return df, world
 
-    def __init__(self, file, world_url=''):
-        # matplotlib global vars
-        self.fig, self.ax = plt.subplots()
-        self.ax.set_aspect('equal')
-        self.divider = make_axes_locatable(self.ax)
-        self.cax = self.divider.append_axes("right", size="5%", pad=0.1)
-        self.df, self.world = self.read_data(file, world_url)
-
-    def slider_setup(self):
-        """Sets up the slider on the graph.
-
-        Returns:
-            matplotlib.widgets.Slider: A slider representing a floating point range.
-        """
-        axcolor = 'lightgoldenrodyellow'
-        axfreq = plt.axes([0.2, 0.1, 0.3, 0.03], facecolor=axcolor)
-        return Slider(axfreq, self.START_DATE, 0.0, 300.0, valinit=0.0, valstep=20)
-
-    def iso2_to_iso3(self, iso2_codes):
-        """Takes a list of iso2 codes and outputs a list of iso3 codes using coco package.
+    @classmethod
+    def _find_time_series(cls, df, str_column, date_columns):
+        """This function takes in a certain column of the dataframe and checks if it is eligible for a time series based on any of the date columns.
+        If so, it returns the first valid data column. If not, returns None
 
         Args:
-            iso2_codes (list): list of iso2 codes
+            df (DataFrame): pandas DataFrame we're parsing
+            str_column (str): name of the qualitative column we're testing
+            date_columns (list[str]): list of names of date columns within the dataframe.
 
         Returns:
-            list: list of iso3 codes
+            str: returns the name of the valid DataFrame column.
         """
-        return coco.convert(names=iso2_codes, to='ISO3')
+        first_country = df[str_column].iloc[0]
+        single_country = df.loc[df[str_column] == first_country]
+        for date_column in date_columns:
+            dates_of_country = list(single_country[date_column])
+            if len(set(dates_of_country)) == len(dates_of_country) and len(dates_of_country) > 1:
+                return date_column
+        return None
 
-    def add_iso3(self, df):
-        """Takes in the given dataframe and adds a column of ISO3 codes based on the existing column of ISO2.
+    @classmethod
+    def _parse_columns(cls, df):
+        """This function parses the columns of a given DataFrame and seperates them into those with number values, those with dates, and those that are string entries
 
         Args:
-            df (DataFrame): The DataFrame to add to.
+            df (DataFrame): pandas DataFrame to be parsed
 
         Returns:
-            DataFrame: The inputted DataFrame with the added column.
+            list[str]: Names of columns with number values
+            list[str]: Names of columns with date values
+            list[str]: Names of columns with string values
         """
-        iso3_codes = self.iso2_to_iso3(df['Country_code'])
-        df.loc[:, 'Country_code_iso3'] = iso3_codes
-        return df
+        time_series_columns = []
+        number_columns = [
+            df.columns[i]
+            for i in range(0, len(df.columns))
+            if isinstance(df.iloc[0, i], numpy.int64) or isinstance(df.iloc[0, i], numpy.float64)
+        ]
+        date_columns = [column for column in df.columns if "date" in column.lower()]
+        iso_columns = [column for column in df.columns if "iso" in column.lower() or "code" in column.lower()]
+        str_columns = list(set(df.columns).difference(number_columns + date_columns + iso_columns))
+        for str_column in str_columns:
+            time_series_column = cls._find_time_series(df, str_column, date_columns)
+            if time_series_column:
+                time_series_columns.append([str_column, time_series_column])
 
-    def filter_single_date(self, date):
-        """Filters the DataFrame associated with the class instance by the specified date.
+        return number_columns, date_columns, iso_columns, time_series_columns
 
-        Args:
-            date (str): The date to filter on
+    @classmethod
+    def _find_available_graphs(cls, number_columns, iso_columns, time_series_columns):
+        available_graphs = []
+        if number_columns and iso_columns:
+            available_graphs.append("heat map")
+        if number_columns and iso_columns and time_series_columns:
+            available_graphs.append("heat map w/ time slider")
+        if time_series_columns:
+            available_graphs.append("time series")
+        return available_graphs
 
-        Returns:
-            DataFrame: The appropriately filtered DataFrame.
-        """
-        return self.df.loc[self.df['Date_reported'] == date].copy()
+    @classmethod
+    def run_query(cls):
+        file_names = cls._get_files(cls.urls)
+        if not file_names:
+            print("File retrieval failed.")
+            return 1
+        print("Available files:")
+        print(file_names)
+        file_name = "data_files/" + input("Which file do you want to analyze? ") + ".csv"
+        df, world = cls._read_data(file_name)
 
-    def merge_manager(self, date):
-        """If necessary, converts the iso2 to iso3 in either DataFrame so they match.
-        On the basis of the matching iso3 column, merges the two DataFrames and plots the resulting combination.
+        number_columns, date_columns, iso_columns, time_series_columns = cls._parse_columns(df)
 
-        Args:
-            date (str): The required date, in format 'yy-mm-dd'
+        print(cls._find_available_graphs(number_columns, iso_columns, time_series_columns))
+        graph_type = input("What type of data visualization do you want to create?")
+        print(number_columns)
+        indep_var = input("Which variable do you want to plot in your " + graph_type + "?")
+        if graph_type == "heat map w/ time slider" or graph_type == "heat map":
+            if graph_type == "heat map w/ time slider":
+                print([time_series_column[1] for time_series_column in time_series_columns])
+                time_series_column = input("Which time series would you like to plot?")
+                start_date = input(
+                    "Which date would you like to start plotting from?\nPlease format it YYYY-MM-DD, and it cannot be earlier than "
+                    + df[time_series_column].iloc[0]
+                    + "."
+                )
+                graph_inst = HeatMap(df, world, indep_var, start_date, iso_columns[0], time_series_column, ts_flag=1)
+            else:
+                graph_inst = HeatMap(df, world, indep_var, df[date_columns[0]].iloc[0], iso_columns[0], date_columns[0])
+        elif graph_type == "time series":
+            print(time_series_columns)
+            my_time_series = input("Which time series would you like to plot?")
+            time_series_list = my_time_series.strip("]").strip("[").replace("'", "").replace(",", "").split(" ")
+            graph_inst = TimeSeries(df, time_series_list[1], time_series_list[0], indep_var)
 
-        Returns:
-           (list of Line2D) : A list of lines representing the plotted data.
-        """
-        mod_df = self.add_iso3(self.filter_single_date(date))
-        merge = pd.merge(left=self.world, right=mod_df, left_on='iso_a3', right_on='Country_code_iso3', how='left')
-        return merge.plot(
-            ax=self.ax,
-            column='Cumulative_cases',
-            legend=True,
-            cax=self.cax,
-            missing_kwds={
-                "color": "lightgrey",
-                "edgecolor": "red",
-                "hatch": "///",
-                "label": "Missing values",
-            },
-        )
-
-    def update(self, time_offset):
-        """ "This is a callback function that replots the graph whenever time_offset is updated,
-        a.k.a. whenever the slider on the map is moved. Takes in the time offset integer, converts
-        to a real datetime, adds to the starting date and converts back to string to push to other methods.
-
-        Args:
-            time_offset (int): The associated number value of the slider, created in slider_setup.
-        """
-        new_datetime = self.START_DATETIME + datetime.timedelta(days=time_offset)
-        self.merge_manager(new_datetime.strftime('%Y-%m-%d'))
-        self.fig.canvas.draw_idle()
-        self.fig.canvas.flush_events()
-
-    def plot_all(self):
-        """This function should be the only one getting called by the user.
-        Will plot the merged DataFrame that results from the init method, along with a slider to
-        show the progression of time."""
-        time_slider = self.slider_setup()
-
-        # callback
-        time_slider.on_changed(self.update)
-
-        # initial plot
-        self.merge_manager(self.START_DATE)
-        plt.show()
+        graph_inst.plot()
+        return graph_inst
 
 
 def main():
-    epi_instance = EpiSpread(EpiSpread.FILE)
-    epi_instance.world.to_csv('world.csv', index=False)
-    epi_instance.plot_all()
+    EpiSpread.run_query()
+    # df = pd.read_csv("data_files/WHO-COVID-19-global-data.csv", delimiter=",")
+    # test = TimeSeries(df, "Date_reported", "Country", "Cumulative_cases")
+    # test.arrange_data()
 
 
 if __name__ == "__main__":

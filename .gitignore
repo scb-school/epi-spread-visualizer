@@ -134,3 +134,8 @@ dmypy.json
 docs/_build
 docs/_static
 docs/_templates
+
+epispread/data_files
+data_files
+epispread/test.txt
+test.txt
