@@ -31,9 +31,7 @@ Usage
 
        from epispread import EpiSpread
 
-      my_epispread_object = EpiSpread(EpiSpread.FILE)
-      epi_instance.world.to_csv('world.csv', index=False)
-      epi_instance.plot_all()
+      EpiSpread.run_query()
 
 
 .. image:: ../epispread/images/mappic+80.jpg
