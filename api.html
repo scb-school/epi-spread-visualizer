@@ -4,7 +4,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>API Reference &#8212; EpiSpread 0.0.1 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
@@ -37,26 +37,113 @@
 <span id="epispread"></span><h2>EpiSpread<a class="headerlink" href="#module-epispread.skeleton" title="Permalink to this heading">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="epispread.skeleton.EpiSpread">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">epispread.skeleton.</span></span><span class="sig-name descname"><span class="pre">EpiSpread</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">world_url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#epispread.skeleton.EpiSpread" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">epispread.skeleton.</span></span><span class="sig-name descname"><span class="pre">EpiSpread</span></span><a class="headerlink" href="#epispread.skeleton.EpiSpread" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="epispread.skeleton.EpiSpread.FILE">
-<span class="sig-name descname"><span class="pre">FILE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'./WHO-COVID-19-global-data.csv'</span></em><a class="headerlink" href="#epispread.skeleton.EpiSpread.FILE" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="epispread.skeleton.EpiSpread.START_DATE">
-<span class="sig-name descname"><span class="pre">START_DATE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'2020-01-21'</span></em><a class="headerlink" href="#epispread.skeleton.EpiSpread.START_DATE" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="epispread.skeleton.EpiSpread.START_DATETIME">
-<span class="sig-name descname"><span class="pre">START_DATETIME</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">datetime.datetime(2020,</span> <span class="pre">1,</span> <span class="pre">21,</span> <span class="pre">0,</span> <span class="pre">0)</span></em><a class="headerlink" href="#epispread.skeleton.EpiSpread.START_DATETIME" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="epispread.skeleton.EpiSpread._find_available_graphs">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_find_available_graphs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number_columns</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iso_columns</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_series_columns</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#epispread.skeleton.EpiSpread._find_available_graphs" title="Permalink to this definition">¶</a></dt>
+<dd><p>find_available_graphs takes in the types of columns a dataset has and based on those,
+outputs a list of possible visualizations that can be graphed using the dataset’s data.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>number_columns (list[str]): list of column names within dataset that contain number values
+iso_columns (list[str]): list of column names within dataset that contain ISO values
+time_series_columns (list[str]): list of column names within dataset that contain date values</p>
+</dd>
+<dt>Returns:</dt><dd><p>list[str]: list of names of types of graphs that can be plotted with the
+available data types.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="epispread.skeleton.EpiSpread.add_iso3">
-<span class="sig-name descname"><span class="pre">add_iso3</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#epispread.skeleton.EpiSpread.add_iso3" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="epispread.skeleton.EpiSpread._find_time_series">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_find_time_series</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">str_column</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_columns</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#epispread.skeleton.EpiSpread._find_time_series" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function takes in a certain column of the dataframe and checks if it is eligible for a time series based on any of the date columns.
+If so, it returns the first valid data column. If not, returns None</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>df (DataFrame): pandas DataFrame we’re parsing
+str_column (str): name of the qualitative column we’re testing
+date_columns (list[str]): list of names of date columns within the dataframe.</p>
+</dd>
+<dt>Returns:</dt><dd><p>str: returns the name of the valid DataFrame column.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epispread.skeleton.EpiSpread._get_files">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_get_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">urls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#epispread.skeleton.EpiSpread._get_files" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function grabs 4 specified URLs from <a class="reference external" href="https://covid19.who.int/data">https://covid19.who.int/data</a>             and stores them as CSV files in data_files/[file_name]
+Returns 1 if failure, 0 if success</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>urls (list[str]): list of all website links to the files we want to download.</p>
+</dd>
+<dt>Returns:</dt><dd><p>list[str]: list of file names that get handed to the query.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epispread.skeleton.EpiSpread._parse_columns">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_parse_columns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#epispread.skeleton.EpiSpread._parse_columns" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function parses the columns of a given DataFrame and seperates them into those with number values, those with dates, and those that are string entries</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>df (DataFrame): pandas DataFrame to be parsed</p>
+</dd>
+<dt>Returns:</dt><dd><p>list[str]: Names of columns with number values
+list[str]: Names of columns with date values
+list[str]: Names of columns with string values</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epispread.skeleton.EpiSpread._read_data">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_read_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#epispread.skeleton.EpiSpread._read_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>read_data takes in a csv file name containing a dataset and reads it into a pandas DataFrame.
+Also reads the inbuilt “world” file in the gpd library into a GeoDataFrame.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>file_name (str): name of file containing dataset</p>
+</dd>
+<dt>Returns:</dt><dd><p>(DataFrame, GeoDataFrame): Tuple of the pandas DataFrame of the data you entered, and the world GeoDataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="epispread.skeleton.EpiSpread.run_query">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">run_query</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#epispread.skeleton.EpiSpread.run_query" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function is the only function that should be called by a user.
+run_query runs a user prompt in order to automate graph setup and creation.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>HeatMap: returns instance of HeatMap class if a HeatMap was plotted
+TimeSeries: returns instance of TimeSeries class if a TimeSeries was plotted.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="epispread.skeleton.EpiSpread.urls">
+<span class="sig-name descname"><span class="pre">urls</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['https://covid19.who.int/WHO-COVID-19-global-data.csv',</span> <span class="pre">'https://covid19.who.int/WHO-COVID-19-global-table-data.csv',</span> <span class="pre">'https://covid19.who.int/who-data/vaccination-data.csv',</span> <span class="pre">'https://covid19.who.int/who-data/vaccination-metadata.csv']</span></em><a class="headerlink" href="#epispread.skeleton.EpiSpread.urls" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="epispread.skeleton.main">
+<span class="sig-prename descclassname"><span class="pre">epispread.skeleton.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#epispread.skeleton.main" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-epispread.graph_classes.heat_map">
+<span id="heatmap"></span><h2>HeatMap<a class="headerlink" href="#module-epispread.graph_classes.heat_map" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="epispread.graph_classes.heat_map.HeatMap">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">epispread.graph_classes.heat_map.</span></span><span class="sig-name descname"><span class="pre">HeatMap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">world</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_column</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iso_column</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_column</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ts_flag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#epispread.graph_classes.heat_map.HeatMap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="epispread.graph_classes.heat_map.HeatMap._add_iso3">
+<span class="sig-name descname"><span class="pre">_add_iso3</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#epispread.graph_classes.heat_map.HeatMap._add_iso3" title="Permalink to this definition">¶</a></dt>
 <dd><p>Takes in the given dataframe and adds a column of ISO3 codes based on the existing column of ISO2.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>df (DataFrame): The DataFrame to add to.</p>
@@ -67,8 +154,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="epispread.skeleton.EpiSpread.filter_single_date">
-<span class="sig-name descname"><span class="pre">filter_single_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#epispread.skeleton.EpiSpread.filter_single_date" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="epispread.graph_classes.heat_map.HeatMap._filter_single_date">
+<span class="sig-name descname"><span class="pre">_filter_single_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#epispread.graph_classes.heat_map.HeatMap._filter_single_date" title="Permalink to this definition">¶</a></dt>
 <dd><p>Filters the DataFrame associated with the class instance by the specified date.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>date (str): The date to filter on</p>
@@ -79,8 +166,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="epispread.skeleton.EpiSpread.iso2_to_iso3">
-<span class="sig-name descname"><span class="pre">iso2_to_iso3</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iso2_codes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#epispread.skeleton.EpiSpread.iso2_to_iso3" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="epispread.graph_classes.heat_map.HeatMap._iso2_to_iso3">
+<span class="sig-name descname"><span class="pre">_iso2_to_iso3</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iso2_codes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#epispread.graph_classes.heat_map.HeatMap._iso2_to_iso3" title="Permalink to this definition">¶</a></dt>
 <dd><p>Takes a list of iso2 codes and outputs a list of iso3 codes using coco package.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>iso2_codes (list): list of iso2 codes</p>
@@ -91,8 +178,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="epispread.skeleton.EpiSpread.merge_manager">
-<span class="sig-name descname"><span class="pre">merge_manager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#epispread.skeleton.EpiSpread.merge_manager" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="epispread.graph_classes.heat_map.HeatMap._merge_manager">
+<span class="sig-name descname"><span class="pre">_merge_manager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#epispread.graph_classes.heat_map.HeatMap._merge_manager" title="Permalink to this definition">¶</a></dt>
 <dd><p>If necessary, converts the iso2 to iso3 in either DataFrame so they match.
 On the basis of the matching iso3 column, merges the two DataFrames and plots the resulting combination.</p>
 <dl class="simple">
@@ -104,32 +191,8 @@ On the basis of the matching iso3 column, merges the two DataFrames and plots th
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="epispread.skeleton.EpiSpread.plot_all">
-<span class="sig-name descname"><span class="pre">plot_all</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#epispread.skeleton.EpiSpread.plot_all" title="Permalink to this definition">¶</a></dt>
-<dd><p>This function should be the only one getting called by the user.
-Will plot the merged DataFrame that results from the init method, along with a slider to
-show the progression of time.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="epispread.skeleton.EpiSpread.read_data">
-<span class="sig-name descname"><span class="pre">read_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">world_url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#epispread.skeleton.EpiSpread.read_data" title="Permalink to this definition">¶</a></dt>
-<dd><p>This function will take in two distinct files in csv format and return both into
-pandas DataFrames using the pd.read_csv function.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>file (str): Relative path to a csv with disease spread
-statistics across countries, delimited by either ISO2 or ISO3.
-world_url (str, optional): Relative path to a csv of world geography.
-Defaults to using the inbuilt geopandas version (this way is ideal).</p>
-</dd>
-<dt>Returns:</dt><dd><p>(DataFrame, DataFrame): Tuple of pandas DataFrames containing appropriate data.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="epispread.skeleton.EpiSpread.slider_setup">
-<span class="sig-name descname"><span class="pre">slider_setup</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#epispread.skeleton.EpiSpread.slider_setup" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="epispread.graph_classes.heat_map.HeatMap._slider_setup">
+<span class="sig-name descname"><span class="pre">_slider_setup</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#epispread.graph_classes.heat_map.HeatMap._slider_setup" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets up the slider on the graph.</p>
 <dl class="simple">
 <dt>Returns:</dt><dd><p>matplotlib.widgets.Slider: A slider representing a floating point range.</p>
@@ -138,8 +201,8 @@ Defaults to using the inbuilt geopandas version (this way is ideal).</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="epispread.skeleton.EpiSpread.update">
-<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_offset</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#epispread.skeleton.EpiSpread.update" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="epispread.graph_classes.heat_map.HeatMap._update">
+<span class="sig-name descname"><span class="pre">_update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_offset</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#epispread.graph_classes.heat_map.HeatMap._update" title="Permalink to this definition">¶</a></dt>
 <dd><p>“This is a callback function that replots the graph whenever time_offset is updated,
 a.k.a. whenever the slider on the map is moved. Takes in the time offset integer, converts
 to a real datetime, adds to the starting date and converts back to string to push to other methods.</p>
@@ -149,12 +212,31 @@ to a real datetime, adds to the starting date and converts back to string to pus
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="epispread.graph_classes.heat_map.HeatMap.plot">
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#epispread.graph_classes.heat_map.HeatMap.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function should be the only one getting called by the user.
+Will plot the merged DataFrame that results from the init method, along with a slider to
+show the progression of time.</p>
 </dd></dl>
 
-<dl class="py function">
-<dt class="sig sig-object py" id="epispread.skeleton.main">
-<span class="sig-prename descclassname"><span class="pre">epispread.skeleton.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#epispread.skeleton.main" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+</dd></dl>
+
+</section>
+<section id="module-epispread.graph_classes.time_series">
+<span id="timeseries"></span><h2>TimeSeries<a class="headerlink" href="#module-epispread.graph_classes.time_series" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="epispread.graph_classes.time_series.TimeSeries">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">epispread.graph_classes.time_series.</span></span><span class="sig-name descname"><span class="pre">TimeSeries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indep_col</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#epispread.graph_classes.time_series.TimeSeries" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="epispread.graph_classes.time_series.TimeSeries.plot">
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#epispread.graph_classes.time_series.TimeSeries.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>plot first converts the values in the “date_col” column of the dataframe to datetime,
+and then calls pandas.pivot_table to plot each of the “line_col” columns by date and their “indep_col” variable.</p>
+</dd></dl>
+
+</dd></dl>
 
 </section>
 </section>
@@ -180,6 +262,8 @@ to a real datetime, adds to the starting date and converts back to string to pus
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#module-epispread.skeleton">EpiSpread</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-epispread.graph_classes.heat_map">HeatMap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-epispread.graph_classes.time_series">TimeSeries</a></li>
 </ul>
 </li>
 </ul>
@@ -219,7 +303,7 @@ to a real datetime, adds to the starting date and converts back to string to pus
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 6.1.3</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
       <a href="_sources/api.rst.txt"
