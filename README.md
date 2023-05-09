@@ -11,7 +11,7 @@ With this library, I am creating a tool that will assist in visualizing the spre
 [![Build Status](https://github.com/scb-school/epi-spread-visualizer/workflows/Build%20Status/badge.svg?branch=main)](https://github.com/scb-school/epi-spread-visualizer/actions?query=workflow%3A%22Build+Status%22)
 [![codecov](https://codecov.io/gh/scb-school/epi-spread-visualizer/branch/main/graph/badge.svg)](https://codecov.io/gh/scb-school/epi-spread-visualizer)
 [![Documentation Status](https://readthedocs.org/projects/epi-spread-visualizer/badge/?version=latest)](https://epi-spread-visualizer.readthedocs.io/en/latest/?badge=latest)
-![GitHub Pages](https://img.shields.io/website?label=GitHub%20Pages&url=https%3A%2F%2Fscb-school.github.io%2Fepi-spread-visualizer%2F)
+![GitHub Pages](https://img.shields.io/website?down_message=offline&label=GitHub%20Pages&up_message=online&url=https%3A%2F%2Fscb-school.github.io%2Fepi-spread-visualizer%2F)
 
 ## Details
 This project is a pure python project using modern tooling. It uses a `Makefile` as a command registry, with the following commands:
