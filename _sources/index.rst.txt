@@ -25,16 +25,29 @@ Installation
 
        $ pip3 install epispread
 
-Usage
-==================
+Usage - Plot a Heat Map with Slider
+===================================
 .. code-block::
 
        from epispread import EpiSpread
 
-      my_epispread_object = EpiSpread(EpiSpread.FILE)
-      epi_instance.world.to_csv('world.csv', index=False)
-      epi_instance.plot_all()
+      EpiSpread.run_query()
 
+      $Available files:
+      $['WHO-COVID-19-global-data', 'vaccination-data', 'vaccination-metadata']
+      $Which file do you want to analyze? WHO-COVID-19-global-data
+
+      $['heat map', 'heat map w/ time slider', 'time series']
+      $What type of data visualization do you want to create?heat map w/ time slider
+
+      $['New_cases', 'Cumulative_cases', 'New_deaths', 'Cumulative_deaths']
+      $Which variable do you want to plot in your heat map w/ time slider?New_cases
+
+      $['Date_reported']
+      $Which time series would you like to plot?Date_reported
+
+      $Which date would you like to start plotting from?
+      $Please format it YYYY-MM-DD, and it cannot be earlier than 2020-01-03.2020-01-03
 
 .. image:: ../epispread/images/mappic+80.jpg
   :width: 400
