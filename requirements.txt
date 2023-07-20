@@ -44,7 +44,7 @@ platformdirs==3.5.0
 pluggy==1.0.0
 pycodestyle==2.10.0
 pyflakes==3.0.1
-Pygments==2.14.0
+Pygments==2.15.0
 pyjsparser==2.7.1
 pyparsing==3.0.9
 PyPrind==2.11.3
